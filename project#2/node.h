@@ -11,18 +11,32 @@
 
 typedef struct _class_list class_list_t;
 typedef struct _class class_t;
+typedef struct _node Node;
+
+
+struct _node{
+    char *type;
+    char *token;
+    struct _node *child;
+    struct _node *next;
+};
 
 struct _class_list {
     class_t *class;
-    struct _class_list *next;
+    struct _class *next;
 };
 
 struct _class {
     char *type;
     char *inherited;
-    // feature 목록이 들어갈 수 있도록 추가한다
+    struct _node *head;
 };
 
 void show_class_list(class_list_t *class_list);
+void show_class(class_t *cls);
+Node* new_node(char *type, char *token);
+class_t* new_class(char *type, char *inherited);
+void append_class(class_list_t *cls_list, class_t *cls);
+void append_Node(Node *par, Node *node);
 
 #endif
