@@ -119,7 +119,7 @@ expr: ID ASSIGN expr {}
     | expr '/' expr {}
     | '~' expr {}
     | expr '<' expr {}
-    | expr '<' '=' expr {}
+    | expr LTE expr {}
     | expr '=' expr {}
     | NOT expr {}
     | '(' expr ')' {}
