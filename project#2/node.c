@@ -51,5 +51,4 @@ void show_class(class_t *cls){
 
 void show_class_list(class_list_t *class_list)
 {
-    printf("%s", class_list->class->type);
 }
