@@ -43,12 +43,12 @@ DASHCOMMENT --.*\n
 (?i:new)             { return NEW; }
 (?i:isvoid)          { return ISVOID; }
 (?i:not)             { return NOT; }
-\"[\\.|^\\"]*\"      { return STRING; }
+\"([^\\]|(\\.))*\"      { return STRING; }
 [A-Z][A-z0-9_]*      { return TYPE; }
 [a-z][A-z0-9_]*      { return ID; }
 [0-9]+               { return INTEGER; }
 (?i:false)           { return BOOLEAN; }
-(?:true)             { return BOOLEAN; }
+(?i:true)            { return BOOLEAN; }
 
 
 "("     { return '('; }
