@@ -36,6 +36,10 @@ void yyerror(char const *s);
 
 %start program
 
+%left '+' '-'
+%left '*' '/'
+%left '(' ')'
+
 %%
 
 program: class_list { program = $1; }
@@ -44,7 +48,6 @@ program: class_list { program = $1; }
 class_list: class {}
     | error ';' {}
     | class_list class {}
-    | class_list error ';' {}
     ;
 
 class: CLASS TYPE '{' feature_list '}' ';' {}
@@ -56,12 +59,11 @@ class: CLASS TYPE '{' feature_list '}' ';' {}
 feature_list: feature ';' {}
     | error ';' {}
     | feature_list feature ';' {}
-    | feature_list error ';' {}
     ;
 
 feature: ID '(' formal_list ')' ':' TYPE '{' expr '}' {}
     | ID '(' ')' ':' TYPE '{' expr '}' {}
-    | ID ':' TYPE ASSIGN {}
+    | ID ':' TYPE ASSIGN expr {}
     | ID ':' TYPE {}
     ;
 
@@ -73,14 +75,17 @@ formal: ID ':' TYPE {}
     ;
 
 expr_list_comma: expr {}
+    | error {}
     | expr_list_comma ',' expr {}
     ;
 
 expr_list: expr ';' {}
+    | error ';' {}
     | expr_list expr ';' {}
     ;
 
 let_exprs: let_expr {}
+    | error {}
     | let_exprs ',' let_expr {}
     ;
 
@@ -89,6 +94,7 @@ let_expr: ID ':' TYPE ASSIGN {}
     ;  
 
 case_expr: ID ':' TYPE DARROW expr ';' {}
+    | error {}
     | case_expr ID ':' TYPE DARROW expr ';' {}
     ;
 
@@ -103,7 +109,6 @@ expr: ID ASSIGN expr {}
     | WHILE expr LOOP expr POOL {}
     | '{' expr_list '}' {}
     | '{' '}' {}
-    | '{' error '}' {}
     | LET let_exprs IN expr {}
     | CASE expr OF case_expr ESAC {}
     | NEW TYPE {}
