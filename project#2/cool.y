@@ -30,6 +30,7 @@ void yyerror(char const *s);
 %token <s> STRING TYPE ID
 %token <i> INTEGER
 %token <b> BOOLEAN
+%token EOL
 
 
 %type <class_list> class_list
@@ -89,7 +90,7 @@ let_exprs: let_expr {}
     | let_exprs ',' let_expr {}
     ;
 
-let_expr: ID ':' TYPE ASSIGN {}
+let_expr: ID ':' TYPE ASSIGN expr {}
     | ID ':' TYPE {}
     ;  
 
